@@ -1,0 +1,15 @@
+{% block content %}
+    <h1>Project: {{project.title}}</h1>
+    <h2>Deadline: {{project.deadline}}</h2>
+    <h2>Tasks:</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <div>
+                    <input type="checkbox" {% if task.complete %} checked {% endif %}/> 
+                    <a>{{task.title}}</a>
+                </div>
+            </li>        
+        {% endfor %}
+    </ul>
+{% endblock content %}

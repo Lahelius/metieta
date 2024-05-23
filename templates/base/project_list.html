@@ -1,0 +1,99 @@
+{% extends 'base/main.html' %}
+{% block content %}
+    
+    <!--
+    <div class="header-bar">
+        <div>
+            <h1> Hello {{request.user|title}}</h1>
+            <h3 style="margin:0">You have <i>{{projects.count}}</i> project{{count|pluralize:"s"}} to complete.</h3>
+        </div>
+        {% if request.user.is_authenticated %}
+        {% csrf_token %}
+        <a class="logout-link" href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a class="login-link" href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+    -->
+
+    <div class="main-content-bar clearfix">
+        <a class="fa fa-sign-out" href="/../logout/"></a>
+    </div>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
+                <h1>{{num_due_today}} Project {{num_due_today|pluralize:"s"}} due today</h1>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
+                <h1> {{num_due_next_seven_days}} Project{{num_due_next_seven_days|pluralize:"s"}} due in next 7 days</h1>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-body">    
+                <h1> {{num_due_next_fourteen_days}} Project{{num_due_next_fourteen_days|pluralize:"s"}} due in next 14 days</h1>
+            </div>    
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-body">    
+                <h1> {{num_overdue}} Project{{num_overdue|pluralize:"s"}} overdue</h1>
+            </div>
+        </div>
+    </div>
+    <table class="project-table">
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Project</th>
+                <th>Deadline</th>
+                <th>Manager</th>
+                <th>Assignee</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in page_obj %}
+            <tr>
+                <td>{{project.client}}</td>
+                <td><a href="{% url 'project-detail' pk=project.id%}">{{project.title}}</a></td>
+                <td>{{project.deadline}}</td>
+                <td>{{project.manager}}</td>
+                <td>{{project.user}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <span class ="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{page_obj.previous_page_number}}">previous</a>
+            {% endif %}
+        
+            <span class="current">
+                Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}.
+            </span>
+        
+            {% if page_obj.has_next %}
+                <a href="?page={{page_obj.next_page_number}}">next</a>
+                <a href="?page={{page_obj.paginator.num_pages}}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    <div class="project-create-wrapper">
+        <a class="project-create" href="{% url 'project-create' %}">Add Project</a>
+    </div>
+
+{% endblock content %}

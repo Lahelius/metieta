@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <title>Overseer:Project Management</title>
+        <meta name="description" content="">
+        <meta nane="viewport" content="width=device-width, inital-scale=1">
+       
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+        <style>
+            body{
+                background-color: #FAFAFA;
+                font-family: 'Nunito', sans-serif;
+                padding-top: 50px;
+            }
+            .card-container{
+                display: flex;
+                justify-content: space-between;
+                padding: 20px;
+            }
+            .card-header{
+                display: flex;
+                justify-content: space-between;
+                color: #FFFFFF;
+                padding: 10px;
+                border-radius: 5px 5px 0 0;
+                background: #A91D3A;
+            }
+
+            .card {
+                height: 5em;
+                width:20%;
+                background-color: #FAFAFA;
+                border-radius: 1em;
+                box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            }
+            
+            .card h1{
+                font-family: 'Nunito', sans-serif;
+                font-size: 1.25em;;
+                text-align: center;
+                margin-top: .5em;
+            }
+
+            .sidenav {
+                height: 100%;
+                width: 200px;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                background-color: #111;
+                overflow-x: hidden;
+                padding-top: 20px;
+            }
+
+            /* Style the sidenav links and the dropbox button */
+            .sidenav a, .dropdown-button {
+                padding: 6px 8px 6px 16px;
+                text-decoration: none;
+                font-size: 20px;
+                color: #818181;
+                display: block;
+                border: none;
+                background: none;
+                width: 100%;
+                text-align: left;
+                cursor: pointer;
+                outline: none;
+            }
+            
+            .sidenav a:hover, .dropdown-button:hover {
+                color: #f1f1f1;
+            }
+            
+            .main {
+                margin-top: 0px;
+                padding-top: 0px;
+                height: 100%;
+                margin-left: 200px;
+                font-size: 20px;
+                padding: 0px;
+                background-color: #ffffff;
+            }
+
+            .active {
+                background-color: #A91D3A;
+                color: white;
+            }
+            
+            .dropdown-container {
+                display: none;
+                background-color: #262626;
+            }
+
+            .fa-caret-down{
+                float: right;
+                padding-right: 8px;
+            }
+            
+            @media screen and (max-height: 450px) {
+                .sidenav {padding-top: 15px;}
+                .sidenav a {font-size: 18px;}
+            }
+            
+            .dropdown-container {
+                display: none;
+                background-color: #262626;
+            }
+            
+            .container {
+                max-width: 550px;
+                margin: auto;
+                -webkit-box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
+                box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
+
+            }
+            
+            .header-bar{
+                display: flex;
+                justify-content: space-between;
+                color: #FFFFFF;
+                padding: 10px;
+                border-radius: 5px 5px 0 0;
+                background: linear-gradient(90deg, #6d71c1 0%, #555ee2 43%, #1620dc 100%);
+            }
+
+            .project-wrapper a{
+                color: #000000;
+                font-size: 2em;
+                text-decoration: none;
+                padding-bottom: .5em;
+            }
+
+            .project-list-deadline{
+                font-size: 1.2em;
+                text-decoration: solid;
+            }
+
+            .project-list-manager{
+                font-size: 1em;
+            }
+
+            .project-list-assignee{
+                font-size: 1em;
+            }
+
+            .project-wrapper{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px;
+                background-color: #FFFFFF;
+                border-top: 1px solid rgb(266,266,266);
+            }
+            
+            .project-wrapper:hover{
+                background-color: #f7f8f9;
+            }
+
+            .logout-link{
+                color: #FFFFFF;
+                text-decoration: none;
+            }
+
+            .login-link{
+                color: #FFFFFF;
+                text-decoration: none;
+            }
+
+            .project-create-wrapper{
+                text-align: right;
+                background-color: #FFFFFF;
+            }
+            
+            .project-create{
+              padding-right: 1em;
+              padding-bottom: 1em;
+            }
+
+            .project-table, .client-table{
+                width: 100%;
+                border-collapse: collapse;
+                margin: 25px 0;
+                font-size: .9em;
+                min-width: 400px;
+                border-radius: 5px 5px 0 0;
+                overflow: hidden;
+                box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            }
+            
+            .project-table thead tr, .client-table thead tr{
+                background-color: #A91D3A;
+                color: #EEEEEE;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            .project-table tr td a, .client-table tr td a{
+                text-decoration: none;
+            }
+
+            .project-table th,
+            .project-table td, .client-table th, .client-table td {
+                padding: 12px 15px;
+            }
+
+            .project-table tbody tr, .client-table tbody tr{
+                border-bottom: 1px solid #cccccc;
+            }
+
+            .project-table tbody tr:nth-of-type(even), .client-table tbody tr:nth-of-type(even){
+                background-color: #e3e3e3;
+            }
+
+            .project-table tbody tr:last-of-type, .client-table tbody tr:last-of-type{
+                border-bottom: 2px solid #A91D3A;
+            }
+
+            .project-table tbody tr.active-row, .client-table tbody tr.active-row{
+                font-weight: bold;
+                color: #A91D3A;
+            }
+
+            .team-name{
+                color: #FFFFFF;
+                text-align: center;
+                font-size: 1.5em;
+            }
+
+            .main-content-bar{
+                overflow: hidden;
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: 200px;
+                height: 50px;
+                background-color: #A91D3A;
+                z-index: 1;
+            }
+
+            .clearfix::after{
+                content: "";
+                clear: both;
+                display: table;
+            }
+            
+            .fa-sign-out{
+                float:right;
+                width: 1em;
+                z-index: -1;
+                margin-top:.62em;
+                color: #FFFFFF;
+                text-decoration: none;
+                padding-right: 11em;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="sidenav">
+            <p class="team-name">{{team_name}}</p>
+            <button class="dropdown-button">Workflow
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="/../team/{{team}}">Projects</a>
+                <a href="#">Tasks</a>
+            </div>
+            <a href="{% url 'clients' pk=team%}">Clients</a>
+        </div>
+        <div class="main">
+            {% block content %}
+
+            {% endblock content%}
+        </div>
+    <script>
+        var dropdown = document.getElementsByClassName("dropdown-button");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+    </script>
+    </body>
+</html>

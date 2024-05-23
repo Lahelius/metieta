@@ -1,0 +1,111 @@
+<DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <title>Metieta: Project Manger</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com">
+        <link rel="stylesheet" href="https://fonts.gstatic.com">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+        
+        <style>
+            body{
+                background-color: #ededed;
+                font-family: 'Nunito', sans-serif;
+                padding-top: 50px;
+            }
+            
+            .list-wrapper{
+                max-width: 450px;
+                margin:auto;
+                align-items: center;
+                text-align: center;
+            }
+
+            .header-bar{
+                font-size: 2.5em;
+                font-weight: bold;
+                max-width: 450px;
+                color: #FFFFFF;
+                padding: 10px;
+                border-radius: .5em .5em 0 0;
+                background: #cf4949;
+            }
+
+            .team-list-container{
+                flex: column;
+                border-radius: 0 0 1em 1em;
+                align-items: center;
+                justify-content: center;
+                background-color: #FFFFFF;
+                -webkit-box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
+                box-shadow: 2px 2px 13px -4px rgba(0,0,0,0.21);
+            }
+            
+            .team-wrapper{
+                margin: auto;
+                width: 300px;
+                border-radius: 1em;
+                padding: 20px;
+                align-items: center;
+                text-align: center;
+                -webkit-box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.607);
+                box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.603);
+            }
+
+            .team-item{
+                padding: 1em;
+                height: 100%;
+                text-decoration: none;
+            }
+
+            .team-wrapper:hover{
+                background-color: #fafafa;
+            }   
+            
+            .team-item{
+                text-decoration: none;
+            }
+
+            .separator{
+                height: 20px;
+                background-color: #f7f8f9;
+            }
+
+            .team-section-title{
+                padding-top: .5em;
+                font-size: 1.5em;
+                font-weight: bold;
+                margin: 0px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="list-wrapper">
+            <div class="header-bar">
+                metieta
+            </div>
+            
+            <div class="team-list-container">
+                <h1 class="team-section-title">My Teams</h1>
+                {% for team in my_teams %}
+                <a class="team-item" href="{% url 'projects' pk=team.id%}">
+                    <div class="team-wrapper">
+                        <p>{{team.name}}</p>
+                    </div>
+                </a>
+                {% endfor %}
+                
+                <h1 class="team-section-title">Teams Shared with Me</h1>
+                {% for team in shared_teams %}
+                <a class="team-item" href="{% url 'projects' pk=team.id%}">
+                    <div class="team-wrapper"> 
+                        <p>{{team.name}}</p>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>
