@@ -2,7 +2,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE-edge">
-        <title>Overseer:Project Management</title>
+        <title>Metieta: Project Management</title>
         <meta name="description" content="">
         <meta nane="viewport" content="width=device-width, inital-scale=1">
        
@@ -12,6 +12,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         
         <style>
+            .pagination{
+                float: right;
+            }
             body{
                 background-color: #FAFAFA;
                 font-family: 'Nunito', sans-serif;
@@ -173,16 +176,22 @@
             }
 
             .project-create-wrapper{
-                text-align: right;
-                background-color: #FFFFFF;
             }
             
             .project-create{
-              padding-right: 1em;
-              padding-bottom: 1em;
+              color: white;
+              font-weight: bold;
+              text-decoration: none;
+              display: block;
+              float: right;
+              margin-bottom: 1em;
+              background-color: #A91D3A;
+              border-radius: 1em;
+              text-align: center;
+              padding: .5em;
             }
 
-            .project-table, .client-table{
+            .project-table, .client-table, .task-table{
                 width: 100%;
                 border-collapse: collapse;
                 margin: 25px 0;
@@ -193,35 +202,47 @@
                 box-shadow: 0 0 20px rgba(0,0,0,0.15);
             }
             
-            .project-table thead tr, .client-table thead tr{
+            .project-table thead tr, .client-table thead tr, .task-table thead tr{
                 background-color: #A91D3A;
                 color: #EEEEEE;
                 text-align: left;
                 font-weight: bold;
             }
 
-            .project-table tr td a, .client-table tr td a{
+            .project-table tr td a, .client-table tr td a, .task-table tr td a{
                 text-decoration: none;
             }
 
             .project-table th,
-            .project-table td, .client-table th, .client-table td {
+            .project-table td, 
+            .client-table th, 
+            .client-table td,
+            .task-table th,
+            .task-table td{
                 padding: 12px 15px;
             }
 
-            .project-table tbody tr, .client-table tbody tr{
+            .project-table tbody tr, 
+            .client-table tbody tr,
+            .task-table tbody tr{
                 border-bottom: 1px solid #cccccc;
             }
 
-            .project-table tbody tr:nth-of-type(even), .client-table tbody tr:nth-of-type(even){
+            .project-table tbody tr:nth-of-type(even), 
+            .client-table tbody tr:nth-of-type(even),
+            .task-table tbody tr:nth-of-type(even){
                 background-color: #e3e3e3;
             }
 
-            .project-table tbody tr:last-of-type, .client-table tbody tr:last-of-type{
+            .project-table tbody tr:last-of-type, 
+            .client-table tbody tr:last-of-type,
+            .task-table tbody tr:last-of-type{
                 border-bottom: 2px solid #A91D3A;
             }
 
-            .project-table tbody tr.active-row, .client-table tbody tr.active-row{
+            .project-table tbody tr.active-row, 
+            .client-table tbody tr.active-row,
+            .task-table tbody tr.active-row{
                 font-weight: bold;
                 color: #A91D3A;
             }
@@ -259,40 +280,29 @@
                 padding-right: 11em;
             }
 
+            .page-title{
+                float:left;
+                margin-top: .62em;
+                padding-left: 1em;
+                color: #ffffff;
+                font-weight:bold;
+
+            }
+
         </style>
     </head>
     <body>
         <div class="sidenav">
             <p class="team-name">{{team_name}}</p>
-            <button class="dropdown-button">Workflow
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-container">
-                <a href="/../team/{{team}}">Projects</a>
-                <a href="#">Tasks</a>
-            </div>
+            <a href="/../team/{{team}}">Projects</a>
+            <a href="{% url 'tasks' pk=team%}">Tasks</a>
             <a href="{% url 'clients' pk=team%}">Clients</a>
+            <a href="#">Client Groups</a>
         </div>
         <div class="main">
             {% block content %}
 
             {% endblock content%}
         </div>
-    <script>
-        var dropdown = document.getElementsByClassName("dropdown-button");
-        var i;
-
-        for (i = 0; i < dropdown.length; i++) {
-            dropdown[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var dropdownContent = this.nextElementSibling;
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                } else {
-                    dropdownContent.style.display = "block";
-                }
-            });
-        }
-    </script>
     </body>
 </html>

@@ -17,6 +17,7 @@
     -->
 
     <div class="main-content-bar clearfix">
+        <p class="page-title">Projects</p>
         <a class="fa fa-sign-out" href="/../logout/"></a>
     </div>
     <div class="card-container">
@@ -52,6 +53,11 @@
             </div>
         </div>
     </div>
+
+    <div class="project-create-wrapper">
+        <a class="project-create" href="{% url 'project-create' %}">Add Project</a>
+    </div>
+    
     <table class="project-table">
         <thead>
             <tr>
@@ -92,8 +98,6 @@
             {% endif %}
         </span>
     </div>
-    <div class="project-create-wrapper">
-        <a class="project-create" href="{% url 'project-create' %}">Add Project</a>
-    </div>
+    
 
 {% endblock content %}

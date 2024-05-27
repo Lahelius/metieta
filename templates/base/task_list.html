@@ -1,4 +1,53 @@
-{% extends 'base.html' %}
+{% extends 'base/main.html' %}
 {% block content %}
+
+<div class="main-content-bar clearfix">
+    <p class="page-title">Tasks</p>
+    <a class="fa fa-sign-out" href="/../logout/"></a>
+</div>
+
+<div class="project-create-wrapper">
+    <a class="project-create" href="{% url 'task-create' %}">Add Task</a>
+</div>
+
+<table class = "task-table">
+    <thead>
+        <tr>
+            <th>Client</th>
+            <th>Project</th>
+            <th>Task</th>
+            <th>Deadline</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    {% for task in tasks %}
+    <tr>
+        <td>{{task.project.client}}</td>
+        <td>{{task.project.title}}</td>
+        <td>{{task.title}}</td>
+        <td>{{task.project.deadline}}</td>
+        <td>{% if task.completed %} Completed {% else %} Pending {% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="pagination">
+    <span class ="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{page_obj.previous_page_number}}">previous</a>
+        {% endif %}
     
-{% endblock content}
+        <span class="current">
+            Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}.
+        </span>
+    
+        {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}">next</a>
+            <a href="?page={{page_obj.paginator.num_pages}}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+{% endblock content %}

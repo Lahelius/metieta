@@ -26,6 +26,16 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
+class TaskCreate(LoginRequiredMixin,CreateView):
+    model = Task
+    fields = '__all__'
+    context_object_name = 'task'
+
+class ClientCreate(LoginRequiredMixin,CreateView):
+    model = Client
+    fields = '__all__'
+    context_object_name = 'client'
+
 class ProjectCreate(LoginRequiredMixin,CreateView):
     model = Project
     fields = '__all__'
@@ -74,11 +84,17 @@ def project_detail(request, pk):
 @login_required(login_url='/login/')
 def client_list(request,pk):
     client_list = Client.objects.all().filter(team=pk)
+    paginator = Paginator(client_list, 15)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     team_name = Team.objects.get(id=pk).name
     context = {
         'clients': client_list,
         'team' : pk,
-        'team_name' : team_name
+        'team_name' : team_name,
+        'page_obj': page_obj
     }
 
     return render(request, 'base/client_list.html', context)
@@ -86,7 +102,7 @@ def client_list(request,pk):
 @login_required(login_url='/login/')
 def project_list(request, pk):
     project_list = Project.objects.all().filter(team=pk).filter(user=request.user.id)
-    paginator = Paginator(project_list, 5)
+    paginator = Paginator(project_list, 15)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -129,3 +145,24 @@ def team_list(request):
     }
 
     return render(request, 'base/team_list.html', context)
+
+@login_required(login_url='/login/')
+def task_list(request, pk):
+    user_id = request.user.id
+    team_name = Team.objects.get(id=pk).name
+    task_list = Task.objects.all().select_related('project').filter(project__team_id=pk).filter(project__user=user_id)
+    paginator = Paginator(task_list, 5)
+
+    task_list = Task.objects.all().select_related('project').select_related('project__client')
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    print(task_list)
+    context = {
+        'tasks': task_list,
+        'team' : pk,
+        'team_name' : team_name,
+        'page_obj': page_obj
+    }
+    
+    return render(request, 'base/task_list.html', context)
